@@ -32,6 +32,11 @@ export function TeamComparison({ result }: TeamComparisonProps) {
       b: Math.round(result.statsB.scaledRating).toString(),
     },
     {
+      label: "Form-adjusted rating",
+      a: Math.round(result.effectiveRatingA).toString(),
+      b: Math.round(result.effectiveRatingB).toString(),
+    },
+    {
       label: "Titles",
       a: result.statsA.titles.toString(),
       b: result.statsB.titles.toString(),

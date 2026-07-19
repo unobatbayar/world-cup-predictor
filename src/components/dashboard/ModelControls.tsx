@@ -20,6 +20,8 @@ export function ModelControls() {
     setRunnerUpPoints,
     setRecencyDivisor,
     setWeightMode,
+    setUseRecentForm,
+    setFormWeight,
   } = useModelSettings();
 
   return (
@@ -86,6 +88,41 @@ export function ModelControls() {
               <code>exp((year - 1930) / 150)</code>.
             </p>
           </div>
+        </div>
+
+        <div className="space-y-4 rounded-lg border border-slate-800 bg-slate-950/50 p-4">
+          <div className="flex items-start gap-3">
+            <Checkbox
+              id="recent-form"
+              checked={settings.useRecentForm}
+              onCheckedChange={(checked) =>
+                setUseRecentForm(checked === true)
+              }
+            />
+            <div className="space-y-1">
+              <Label htmlFor="recent-form">Use Recent Real Results</Label>
+              <p className="text-xs text-slate-400">
+                Replays 2024–2026 competitive results (Euro 2024, Copa América,
+                Nations League, 2026 World Cup knockouts) as Elo updates on top
+                of the historical rating.
+              </p>
+            </div>
+          </div>
+          {settings.useRecentForm ? (
+            <Control
+              label="Form influence"
+              display={`${Math.round(settings.formWeight * 100)}%`}
+              hint="0% = history only, 100% = full Elo adjustment from recent matches."
+            >
+              <Slider
+                min={0}
+                max={1}
+                step={0.05}
+                value={[settings.formWeight]}
+                onValueChange={([value]) => setFormWeight(value)}
+              />
+            </Control>
+          ) : null}
         </div>
       </CardContent>
     </Card>

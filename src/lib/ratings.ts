@@ -12,6 +12,8 @@ export const DEFAULT_SETTINGS: ModelSettings = {
   runnerUpPoints: 1,
   recencyDivisor: 100,
   weightMode: "linear",
+  useRecentForm: true,
+  formWeight: 1,
 };
 
 export function normalizeTeam(name: string): string {

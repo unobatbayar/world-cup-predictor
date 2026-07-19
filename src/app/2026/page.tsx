@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { DualTimeline } from "@/components/predict/DualTimeline";
 import { ExplainPrediction } from "@/components/predict/ExplainPrediction";
 import { ProbabilityBars } from "@/components/predict/ProbabilityBars";
+import { RecentFormPanel } from "@/components/predict/RecentFormPanel";
 import { TeamComparison } from "@/components/predict/TeamComparison";
 import { ModelControls } from "@/components/dashboard/ModelControls";
 import { PlayerModelComparison } from "@/components/players/PlayerModelComparison";
@@ -104,6 +105,8 @@ export default function Final2026Page() {
       <ModelControls />
 
       <PlayerModelComparison result={result} />
+
+      <RecentFormPanel result={result} />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <TeamComparison result={result} />

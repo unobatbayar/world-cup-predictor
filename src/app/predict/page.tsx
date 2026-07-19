@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { DualTimeline } from "@/components/predict/DualTimeline";
 import { ExplainPrediction } from "@/components/predict/ExplainPrediction";
 import { ProbabilityBars } from "@/components/predict/ProbabilityBars";
+import { RecentFormPanel } from "@/components/predict/RecentFormPanel";
 import { TeamComparison } from "@/components/predict/TeamComparison";
 import { ModelControls } from "@/components/dashboard/ModelControls";
 import { Button } from "@/components/ui/button";
@@ -131,6 +132,8 @@ export default function PredictPage() {
               />
             </CardContent>
           </Card>
+
+          <RecentFormPanel result={result} />
 
           <div className="grid gap-6 lg:grid-cols-2">
             <TeamComparison result={result} />

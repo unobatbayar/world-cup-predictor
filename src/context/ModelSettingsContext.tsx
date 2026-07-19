@@ -20,6 +20,8 @@ type ModelContextValue = {
   setRecencyDivisor: (value: number) => void;
   setWeightMode: (mode: WeightMode) => void;
   toggleWeightMode: () => void;
+  setUseRecentForm: (value: boolean) => void;
+  setFormWeight: (value: number) => void;
   ratings: TeamRating[];
   snapshots: ReturnType<typeof calculateRatings>["snapshots"];
   teams: string[];
@@ -58,6 +60,14 @@ export function ModelSettingsProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
+  const setUseRecentForm = useCallback((value: boolean) => {
+    setSettings((prev) => ({ ...prev, useRecentForm: value }));
+  }, []);
+
+  const setFormWeight = useCallback((value: number) => {
+    setSettings((prev) => ({ ...prev, formWeight: value }));
+  }, []);
+
   const { ratings, snapshots } = useMemo(
     () => calculateRatings(worldCups, settings),
     [settings]
@@ -78,6 +88,8 @@ export function ModelSettingsProvider({ children }: { children: ReactNode }) {
       setRecencyDivisor,
       setWeightMode,
       toggleWeightMode,
+      setUseRecentForm,
+      setFormWeight,
       ratings,
       snapshots,
       teams,
@@ -94,6 +106,8 @@ export function ModelSettingsProvider({ children }: { children: ReactNode }) {
       setRecencyDivisor,
       setWeightMode,
       toggleWeightMode,
+      setUseRecentForm,
+      setFormWeight,
       ratings,
       snapshots,
       teams,

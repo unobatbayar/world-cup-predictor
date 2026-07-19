@@ -88,11 +88,12 @@ export function predict2026Match(
   const playerWeight = 1 - historicalWeight;
   const playerStrengthA = calculatePlayerTeamStrength(teamA);
   const playerStrengthB = calculatePlayerTeamStrength(teamB);
+  // effectiveRating already folds in recent real results when enabled.
   const combinedRatingA =
-    historical.statsA.scaledRating * historicalWeight +
+    historical.effectiveRatingA * historicalWeight +
     playerStrengthA.playerScaledRating * playerWeight;
   const combinedRatingB =
-    historical.statsB.scaledRating * historicalWeight +
+    historical.effectiveRatingB * historicalWeight +
     playerStrengthB.playerScaledRating * playerWeight;
   const { probabilityA, probabilityB } = calculateProbability(
     combinedRatingA,

@@ -12,6 +12,20 @@ export type ModelSettings = {
   runnerUpPoints: number;
   recencyDivisor: number;
   weightMode: WeightMode;
+  useRecentForm: boolean;
+  formWeight: number;
+};
+
+export type MatchResult = {
+  date: string;
+  competition: string;
+  stage: string;
+  teamA: string;
+  teamB: string;
+  scoreA: number | null;
+  scoreB: number | null;
+  winner: string | null;
+  importance: number;
 };
 
 export type TeamRating = {
@@ -57,6 +71,11 @@ export type PredictionResult = {
   predictedWinner: string;
   statsA: TeamStats;
   statsB: TeamStats;
+  formRatingA: number;
+  formRatingB: number;
+  effectiveRatingA: number;
+  effectiveRatingB: number;
+  formWeight: number;
 };
 
 export type PlayerPosition = "GK" | "DEF" | "MID" | "FWD";

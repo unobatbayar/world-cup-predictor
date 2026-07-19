@@ -57,6 +57,22 @@ P(A wins) = 1 / (1 + 10^((ratingB - ratingA) / 400))
 
 West Germany results are merged into Germany during calculations.
 
+### Recent form (Elo replay)
+
+When "Use Recent Real Results" is enabled (default), real competitive results
+from 2024–2026 (Euro 2024, Copa América 2024, Nations League 2025, and the
+2026 World Cup knockout rounds, excluding the final itself) are replayed
+chronologically as Elo updates on top of the historical scaled ratings:
+
+```text
+delta = K * (actual - expected)
+```
+
+where `K` is the match importance (80–120), `actual` is 1/0.5/0 for
+win/draw/loss, and `expected` comes from the same Elo formula. A "form
+influence" slider blends between history-only (0%) and the fully
+form-adjusted rating (100%).
+
 ### 2026 player model
 
 The 2026 page additionally uses a static, illustrative Argentina and Spain
