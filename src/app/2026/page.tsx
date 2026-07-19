@@ -7,6 +7,7 @@ import { ExplainPrediction } from "@/components/predict/ExplainPrediction";
 import { ProbabilityBars } from "@/components/predict/ProbabilityBars";
 import { TeamComparison } from "@/components/predict/TeamComparison";
 import { ModelControls } from "@/components/dashboard/ModelControls";
+import { PlayerModelComparison } from "@/components/players/PlayerModelComparison";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -16,8 +17,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useModelSettings } from "@/context/ModelSettingsContext";
-import { explainMatchupSummary } from "@/lib/explain";
-import { predictMatch } from "@/lib/predict";
+import {
+  explainCombinedPrediction,
+  predict2026Match,
+} from "@/lib/players";
 import { formatPercent } from "@/lib/utils";
 
 const TEAM_A = "Argentina";
@@ -27,15 +30,11 @@ export default function Final2026Page() {
   const { settings } = useModelSettings();
 
   const result = useMemo(
-    () => predictMatch(TEAM_A, TEAM_B, settings),
+    () => predict2026Match(TEAM_A, TEAM_B, settings),
     [settings]
   );
 
-  const summary = explainMatchupSummary(
-    result.statsA,
-    result.statsB,
-    result.predictedWinner
-  );
+  const summary = explainCombinedPrediction(result);
 
   return (
     <div className="space-y-8">
@@ -49,8 +48,8 @@ export default function Final2026Page() {
           2026 Final Prediction
         </h1>
         <p className="max-w-2xl text-lg text-slate-300">
-          The model automatically compares Argentina and Spain using only
-          historical World Cup finals results.
+          The model compares Argentina and Spain by blending World Cup history
+          with an experimental player-performance and squad-depth rating.
         </p>
       </motion.section>
 
@@ -59,7 +58,7 @@ export default function Final2026Page() {
           <CardHeader>
             <CardTitle>Winner probability</CardTitle>
             <CardDescription>
-              Live prediction under the current weighting scheme.
+              60% historical rating and 40% player-strength rating.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -103,6 +102,8 @@ export default function Final2026Page() {
       </div>
 
       <ModelControls />
+
+      <PlayerModelComparison result={result} />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <TeamComparison result={result} />

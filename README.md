@@ -26,7 +26,8 @@ Open [http://localhost:3000](http://localhost:3000).
 | --- | --- |
 | `/` | Dashboard with history, ratings, charts, and interactive model controls |
 | `/predict` | Head-to-head predictor with probability bars and generated explanations |
-| `/2026` | Automatic Argentina vs Spain final prediction |
+| `/players` | Searchable Argentina and Spain player-performance dataset |
+| `/2026` | Argentina vs Spain prediction blending history and player strength |
 
 ## Model
 
@@ -56,6 +57,25 @@ P(A wins) = 1 / (1 + 10^((ratingB - ratingA) / 400))
 
 West Germany results are merged into Germany during calculations.
 
+### 2026 player model
+
+The 2026 page additionally uses a static, illustrative Argentina and Spain
+roster snapshot. Individual ratings are calculated as:
+
+```text
+playerRating =
+  form * 40% +
+  internationalPerformance * 30% +
+  experience * 20% +
+  availability * 10%
+```
+
+Team player strength is 85% best positional starting XI and 15% full-squad
+depth. The final 2026 team rating blends the historical rating (60%) with the
+player-strength rating (40%).
+
 ## Notes
 
-This project is an experimental historical rating toy — not a betting or scouting model.
+This project is an experimental rating toy — not a betting or scouting model.
+Player values are not official FIFA/EA ratings, live statistics, or confirmed
+2026 squad selections.

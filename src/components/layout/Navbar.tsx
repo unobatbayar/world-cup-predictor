@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 const links = [
   { href: "/", label: "Dashboard" },
   { href: "/predict", label: "Predict" },
+  { href: "/players", label: "Players" },
   { href: "/2026", label: "2026 Final" },
 ];
 
@@ -24,7 +25,7 @@ export function Navbar() {
           <span className="hidden sm:inline">World Cup Predictor</span>
           <span className="sm:hidden">WCP</span>
         </Link>
-        <nav className="flex items-center gap-1 rounded-full border border-slate-800 bg-slate-900/70 p-1">
+        <nav className="flex items-center gap-1 overflow-x-auto rounded-full border border-slate-800 bg-slate-900/70 p-1">
           {links.map((link) => {
             const active =
               link.href === "/"

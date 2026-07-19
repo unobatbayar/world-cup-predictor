@@ -58,3 +58,43 @@ export type PredictionResult = {
   statsA: TeamStats;
   statsB: TeamStats;
 };
+
+export type PlayerPosition = "GK" | "DEF" | "MID" | "FWD";
+
+export type Player = {
+  id: string;
+  name: string;
+  team: "Argentina" | "Spain";
+  position: PlayerPosition;
+  age: number;
+  club: string;
+  form: number;
+  internationalPerformance: number;
+  experience: number;
+  availability: number;
+};
+
+export type RatedPlayer = Player & {
+  rating: number;
+};
+
+export type PlayerTeamStrength = {
+  team: string;
+  startingXI: RatedPlayer[];
+  squad: RatedPlayer[];
+  startingXIRating: number;
+  depthRating: number;
+  playerRating: number;
+  playerScaledRating: number;
+};
+
+export type CombinedPredictionResult = PredictionResult & {
+  historicalWeight: number;
+  playerWeight: number;
+  playerStrengthA: PlayerTeamStrength;
+  playerStrengthB: PlayerTeamStrength;
+  combinedRatingA: number;
+  combinedRatingB: number;
+  historicalProbabilityA: number;
+  historicalProbabilityB: number;
+};
