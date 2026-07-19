@@ -1,5 +1,7 @@
+import { recentMatches } from "@/data/recentMatches";
 import { worldCups } from "@/data/worldcups";
 import type {
+  MatchResult,
   ModelSettings,
   RatingSnapshot,
   TeamRating,
@@ -100,12 +102,17 @@ export function calculateRatings(
 }
 
 export function getAllTeams(
-  tournaments: WorldCupTournament[] = worldCups
+  tournaments: WorldCupTournament[] = worldCups,
+  matches: MatchResult[] = recentMatches
 ): string[] {
   const teams = new Set<string>();
   for (const cup of tournaments) {
     teams.add(normalizeTeam(cup.winner));
     teams.add(normalizeTeam(cup.runnerUp));
+  }
+  for (const match of matches) {
+    teams.add(normalizeTeam(match.teamA));
+    teams.add(normalizeTeam(match.teamB));
   }
   return [...teams].sort((a, b) => a.localeCompare(b));
 }

@@ -23,6 +23,10 @@ export function explainPrediction(statsA: TeamStats, statsB: TeamStats): string 
       ? `${trailing.team} has never won the World Cup and has fewer historical finals appearances`
       : `${trailing.team} has ${pluralize(trailing.titles, "World Cup title")} and fewer historical finals appearances`;
 
+  if (leading.finals === 0 && trailing.finals === 0) {
+    return `Neither ${leading.team} nor ${trailing.team} has reached a World Cup final, so this matchup is decided almost entirely by recent real results replayed as Elo updates rather than historical pedigree.`;
+  }
+
   return `${leading.team} has won ${pluralize(leading.titles, "World Cup")}, reached ${pluralize(leading.finals, "final")},${leadingRecentText}. ${trailingClause}, resulting in a lower historical rating${
     leadingRecent > trailingRecent ? " despite competitive modern form" : ""
   }.`;

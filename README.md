@@ -61,8 +61,11 @@ West Germany results are merged into Germany during calculations.
 
 When "Use Recent Real Results" is enabled (default), real competitive results
 from 2024–2026 (Euro 2024, Copa América 2024, Nations League 2025, and the
-2026 World Cup knockout rounds, excluding the final itself) are replayed
-chronologically as Elo updates on top of the historical scaled ratings:
+2026 World Cup group and knockout rounds, excluding the final itself) are
+replayed chronologically as Elo updates on top of the historical scaled
+ratings. Every 2026 team that appears in this dataset (Norway, Japan, South
+Korea, Egypt, Morocco, and more) is selectable on `/predict`, starting from a
+1500 baseline if it never reached a World Cup final:
 
 ```text
 delta = K * (actual - expected)
