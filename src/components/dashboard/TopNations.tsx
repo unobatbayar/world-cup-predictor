@@ -1,0 +1,59 @@
+"use client";
+
+import { motion } from "framer-motion";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useModelSettings } from "@/context/ModelSettingsContext";
+import { useTeamModal } from "@/context/TeamModalContext";
+import { formatScore } from "@/lib/utils";
+
+export function TopNations() {
+  const { ratings } = useModelSettings();
+  const { openTeam } = useTeamModal();
+  const top10 = ratings.slice(0, 10);
+  const max = top10[0]?.score ?? 1;
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Top 10 nations</CardTitle>
+        <CardDescription>
+          Highest recency-weighted historical ratings under the current model.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        {top10.map((team, index) => (
+          <button
+            key={team.team}
+            type="button"
+            onClick={() => openTeam(team.team)}
+            className="block w-full text-left"
+          >
+            <div className="mb-1 flex items-center justify-between text-sm">
+              <span className="font-medium text-slate-100">
+                <span className="mr-2 text-slate-500">{index + 1}.</span>
+                {team.team}
+              </span>
+              <span className="font-mono text-emerald-300">
+                {formatScore(team.score)}
+              </span>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-slate-800">
+              <motion.div
+                className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-cyan-400"
+                initial={{ width: 0 }}
+                animate={{ width: `${(team.score / max) * 100}%` }}
+                transition={{ duration: 0.6, delay: index * 0.04 }}
+              />
+            </div>
+          </button>
+        ))}
+      </CardContent>
+    </Card>
+  );
+}
