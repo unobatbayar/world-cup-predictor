@@ -31,29 +31,31 @@ export default function HomePage() {
         transition={{ duration: 0.45 }}
         className="space-y-4"
       >
-        <Badge>Historical analytics experiment</Badge>
+        <Badge>Recent-results Elo experiment</Badge>
         <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-white sm:text-5xl">
           World Cup Predictor
         </h1>
         <p className="max-w-2xl text-lg text-slate-300">
-          Predict the next FIFA World Cup champion using only historical World
-          Cup results.
+          Predict World Cup matchups from verified recent results first, with
+          historical finals data kept only as optional background context.
         </p>
       </motion.section>
 
-      <Card className="border-amber-400/20 bg-amber-400/5">
+      <Card className="border-emerald-400/20 bg-emerald-400/5">
         <CardHeader>
-          <CardTitle className="text-amber-200">Not a betting model</CardTitle>
-          <CardDescription className="text-amber-100/70">
-            This is a playful data-science experiment. Ratings are derived only
-            from historical World Cup winners and runners-up, with optional
-            recency weighting. They are not intended for gambling, scouting, or
-            serious forecasting.
+          <CardTitle className="text-emerald-200">
+            Recent real results drive accuracy
+          </CardTitle>
+          <CardDescription className="text-emerald-100/70">
+            Winner and runner-up points from 1930–2022 finals are interesting
+            for charts, but they do not track current tournament outcomes well.
+            The default model replays 2024–2026 competitive matches as Elo
+            updates — that is what flips France below Spain and England.
           </CardDescription>
         </CardHeader>
-        <CardContent className="text-sm text-amber-100/80">
-          Winner: +3 × weight · Runner-up: +1 × weight · Weight grows with
-          tournament year so recent finals matter more.
+        <CardContent className="text-sm text-emerald-100/80">
+          Primary: recent-match Elo · Secondary: squad snapshot on /2026 ·
+          Legacy: historical finals scoring (collapsed under Advanced).
         </CardContent>
       </Card>
 

@@ -10,20 +10,22 @@ import {
 } from "@/components/ui/card";
 import { useModelSettings } from "@/context/ModelSettingsContext";
 import { useTeamModal } from "@/context/TeamModalContext";
-import { formatScore } from "@/lib/utils";
 
 export function TopNations() {
-  const { ratings } = useModelSettings();
+  const { formRankings, settings } = useModelSettings();
   const { openTeam } = useTeamModal();
-  const top10 = ratings.slice(0, 10);
-  const max = top10[0]?.score ?? 1;
+  const top10 = formRankings.slice(0, 10);
+  const max = top10[0]?.effectiveRating ?? 1;
+  const usingForm = settings.useRecentForm && settings.formWeight > 0;
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Top 10 nations</CardTitle>
+        <CardTitle>Top 10 by live Elo</CardTitle>
         <CardDescription>
-          Highest recency-weighted historical ratings under the current model.
+          {usingForm
+            ? "Ranked by form-adjusted Elo after replaying recent real results."
+            : "Recent form is off — showing historical finals baseline only."}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
@@ -40,14 +42,16 @@ export function TopNations() {
                 {team.team}
               </span>
               <span className="font-mono text-emerald-300">
-                {formatScore(team.score)}
+                {Math.round(team.effectiveRating)}
               </span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-slate-800">
               <motion.div
                 className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-cyan-400"
                 initial={{ width: 0 }}
-                animate={{ width: `${(team.score / max) * 100}%` }}
+                animate={{
+                  width: `${(team.effectiveRating / max) * 100}%`,
+                }}
                 transition={{ duration: 0.6, delay: index * 0.04 }}
               />
             </div>

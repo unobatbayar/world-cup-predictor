@@ -49,8 +49,9 @@ export default function PredictPage() {
           Match predictor
         </h1>
         <p className="max-w-2xl text-slate-300">
-          Choose any two World Cup finalists and convert their historical ratings
-          into Elo-style win probabilities.
+          Choose any two 2026-relevant nations. Probabilities come from recent
+          real-match Elo by default, not from historical winner/runner-up
+          points.
         </p>
       </motion.section>
 
@@ -59,7 +60,8 @@ export default function PredictPage() {
           <CardHeader>
             <CardTitle>Select teams</CardTitle>
             <CardDescription>
-              Probabilities update instantly when you change model controls.
+              Probabilities update instantly when you change recent-form
+              settings.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-5">
@@ -119,8 +121,8 @@ export default function PredictPage() {
             <CardHeader>
               <CardTitle>Win probabilities</CardTitle>
               <CardDescription>
-                Scaled ratings use{" "}
-                <code>1500 + score × 40</code> before the Elo formula.
+                Default forecasts use form-adjusted Elo from recent real
+                results. Historical finals scoring is only the starting baseline.
               </CardDescription>
             </CardHeader>
             <CardContent>

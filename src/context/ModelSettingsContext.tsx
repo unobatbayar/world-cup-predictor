@@ -10,8 +10,18 @@ import {
 } from "react";
 import { worldCups } from "@/data/worldcups";
 import { calculateRatings, DEFAULT_SETTINGS, getAllTeams } from "@/lib/ratings";
+import { getEffectiveRatings } from "@/lib/predict";
 import { calculateFinalsAppearances, calculateTitleShares } from "@/lib/stats";
 import type { ModelSettings, TeamRating, WeightMode } from "@/lib/types";
+
+export type FormRankedTeam = {
+  team: string;
+  effectiveRating: number;
+  historicalRating: number;
+  titles: number;
+  runnerUps: number;
+  finals: number;
+};
 
 type ModelContextValue = {
   settings: ModelSettings;
@@ -23,6 +33,7 @@ type ModelContextValue = {
   setUseRecentForm: (value: boolean) => void;
   setFormWeight: (value: number) => void;
   ratings: TeamRating[];
+  formRankings: FormRankedTeam[];
   snapshots: ReturnType<typeof calculateRatings>["snapshots"];
   teams: string[];
   titleShares: ReturnType<typeof calculateTitleShares>;
@@ -73,6 +84,34 @@ export function ModelSettingsProvider({ children }: { children: ReactNode }) {
     [settings]
   );
 
+  const formRankings = useMemo(() => {
+    const { historical, effective } = getEffectiveRatings(settings);
+    const titleLookup = Object.fromEntries(
+      ratings.map((rating) => [
+        rating.team,
+        {
+          titles: rating.titles,
+          runnerUps: rating.runnerUps,
+          finals: rating.finals,
+        },
+      ])
+    );
+
+    return Object.keys(effective)
+      .map((team) => ({
+        team,
+        effectiveRating: effective[team],
+        historicalRating: historical[team] ?? 1500,
+        titles: titleLookup[team]?.titles ?? 0,
+        runnerUps: titleLookup[team]?.runnerUps ?? 0,
+        finals: titleLookup[team]?.finals ?? 0,
+      }))
+      .sort(
+        (a, b) =>
+          b.effectiveRating - a.effectiveRating || a.team.localeCompare(b.team)
+      );
+  }, [ratings, settings]);
+
   const teams = useMemo(() => getAllTeams(worldCups), []);
   const titleShares = useMemo(() => calculateTitleShares(worldCups), []);
   const finalsAppearances = useMemo(
@@ -91,6 +130,7 @@ export function ModelSettingsProvider({ children }: { children: ReactNode }) {
       setUseRecentForm,
       setFormWeight,
       ratings,
+      formRankings,
       snapshots,
       teams,
       titleShares,
@@ -109,6 +149,7 @@ export function ModelSettingsProvider({ children }: { children: ReactNode }) {
       setUseRecentForm,
       setFormWeight,
       ratings,
+      formRankings,
       snapshots,
       teams,
       titleShares,

@@ -82,18 +82,18 @@ export function predict2026Match(
   teamA: string,
   teamB: string,
   settings: ModelSettings,
-  historicalWeight = 0.6
+  formWeightShare = 0.75
 ): CombinedPredictionResult {
   const historical = predictMatch(teamA, teamB, settings);
-  const playerWeight = 1 - historicalWeight;
+  const playerWeight = 1 - formWeightShare;
   const playerStrengthA = calculatePlayerTeamStrength(teamA);
   const playerStrengthB = calculatePlayerTeamStrength(teamB);
   // effectiveRating already folds in recent real results when enabled.
   const combinedRatingA =
-    historical.effectiveRatingA * historicalWeight +
+    historical.effectiveRatingA * formWeightShare +
     playerStrengthA.playerScaledRating * playerWeight;
   const combinedRatingB =
-    historical.effectiveRatingB * historicalWeight +
+    historical.effectiveRatingB * formWeightShare +
     playerStrengthB.playerScaledRating * playerWeight;
   const { probabilityA, probabilityB } = calculateProbability(
     combinedRatingA,
@@ -105,7 +105,7 @@ export function predict2026Match(
     probabilityA,
     probabilityB,
     predictedWinner: probabilityA >= probabilityB ? teamA : teamB,
-    historicalWeight,
+    historicalWeight: formWeightShare,
     playerWeight,
     playerStrengthA,
     playerStrengthB,
@@ -123,10 +123,18 @@ export function explainCombinedPrediction(
     result.playerStrengthA.playerRating >= result.playerStrengthB.playerRating
       ? result.playerStrengthA
       : result.playerStrengthB;
-  const historicalLeader =
-    result.statsA.scaledRating >= result.statsB.scaledRating
+  const formLeader =
+    result.effectiveRatingA >= result.effectiveRatingB
       ? result.teamA
       : result.teamB;
 
-  return `${result.predictedWinner} leads the blended model. ${historicalLeader} has the stronger historical rating, while ${strongerPlayers.team} has the higher experimental squad score (${strongerPlayers.playerRating.toFixed(1)}). The final probability weights World Cup history ${Math.round(result.historicalWeight * 100)}% and player form, international performance, experience, and availability ${Math.round(result.playerWeight * 100)}%.`;
+  return `${result.predictedWinner} leads the blended model. ${formLeader} has the stronger recent-form Elo (${Math.round(
+    formLeader === result.teamA
+      ? result.effectiveRatingA
+      : result.effectiveRatingB
+  )}), while ${strongerPlayers.team} has the higher experimental squad score (${strongerPlayers.playerRating.toFixed(
+    1
+  )}). The final probability weights recent-form Elo ${Math.round(
+    result.historicalWeight * 100
+  )}% and player strength ${Math.round(result.playerWeight * 100)}%.`;
 }

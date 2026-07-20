@@ -43,7 +43,7 @@ export function PlayerModelComparison({
             </thead>
             <tbody>
               <ComparisonRow
-                label="History only"
+                label="Recent-form Elo only"
                 a={formatPercent(result.historicalProbabilityA)}
                 b={formatPercent(result.historicalProbabilityB)}
               />

@@ -18,10 +18,10 @@ export function RatingTable() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Rating table</CardTitle>
+        <CardTitle>Historical finals table</CardTitle>
         <CardDescription>
-          Recency-weighted historical score for every nation that reached a
-          World Cup final.
+          Legacy 1930–2022 finals score used only as the Elo starting baseline.
+          Live rankings use recent real results instead.
         </CardDescription>
       </CardHeader>
       <CardContent>

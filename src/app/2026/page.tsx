@@ -49,8 +49,8 @@ export default function Final2026Page() {
           2026 Final Prediction
         </h1>
         <p className="max-w-2xl text-lg text-slate-300">
-          The model compares Argentina and Spain by blending World Cup history
-          with an experimental player-performance and squad-depth rating.
+          Argentina vs Spain is driven mainly by recent real-match Elo, with a
+          smaller experimental squad-strength blend on top.
         </p>
       </motion.section>
 
@@ -59,7 +59,7 @@ export default function Final2026Page() {
           <CardHeader>
             <CardTitle>Winner probability</CardTitle>
             <CardDescription>
-              60% historical rating and 40% player-strength rating.
+              75% recent-form Elo and 25% experimental player-strength rating.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
